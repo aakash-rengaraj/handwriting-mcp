@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "gtm-studio",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "5188", "--strictPort"],
+      "port": 5188
+    },
+    {
+      "name": "millwright-site",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "/Users/admin/Documents/Misc/Millwright", "--port", "5189", "--strictPort"],
+      "port": 5189
+    }
+  ]
+}

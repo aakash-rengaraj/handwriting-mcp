@@ -1,0 +1,108 @@
+/* Editable page, ported from texttohandwriting.com (itself based on
+   saurabhdaware/text-to-handwriting, MIT). The downloaded images are drawn
+   by render.js; this page is only the typing surface. */
+.page-a {
+  --hw-font: "handwriting-1";
+  --ink: #0d2270;
+  width: 450px;
+  height: calc(11.7 * 400px / 8.3);
+  background: #fff;
+  font-size: 38px;
+  position: relative;
+  font-family: var(--hw-font), cursive;
+  color: var(--ink);
+  line-height: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  text-align: left;
+}
+.page-a .top-margin,
+.page-a .left-margin { display: none; }
+.page-a .left-margin-and-content {
+  display: flex;
+  flex: 1 0 auto;
+  position: relative;
+}
+.page-a .paper-content {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.page-a.lines .paper-content {
+  background-image: linear-gradient(rgba(105, 138, 185, 0.6) 1px, transparent 0.05px);
+  background-size: 100% 20px;
+}
+.page-a.margined .paper-content { padding: 5px 5px 5px 55px; }
+.page-a.margined .top-margin {
+  display: block;
+  height: 50px;
+  flex: 0 0 50px;
+  border-bottom: 2px solid rgba(226, 96, 116, 0.75);
+}
+.page-a.margined .left-margin {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 100%;
+  border-right: 2px solid rgba(226, 96, 116, 0.75);
+}
+
+/* Live preview of the rendered output. */
+.note-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+}
+.note-preview figure { margin: 0; max-width: 100%; }
+.note-preview canvas { display: block; max-width: 100%; height: auto; }
+/* Crop overlay */
+.crop-fig { position: relative; }
+.crop-layer { position: absolute; inset: 0; cursor: crosshair; touch-action: none; }
+.crop-clip { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.crop-dim { position: absolute; box-shadow: 0 0 0 9999px rgba(12, 12, 12, 0.6); }
+.crop-box {
+  position: absolute;
+  cursor: move;
+  box-shadow: inset 0 0 0 1.5px #fff;
+}
+.crop-box:focus-visible { outline: 2px solid #d83a00; }
+.crop-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, transparent calc(33.33% - 0.5px), rgba(255, 255, 255, 0.45) 0 calc(33.33% + 0.5px), transparent 0 calc(66.66% - 0.5px), rgba(255, 255, 255, 0.45) 0 calc(66.66% + 0.5px), transparent 0),
+    linear-gradient(to bottom, transparent calc(33.33% - 0.5px), rgba(255, 255, 255, 0.45) 0 calc(33.33% + 0.5px), transparent 0 calc(66.66% - 0.5px), rgba(255, 255, 255, 0.45) 0 calc(66.66% + 0.5px), transparent 0);
+}
+.crop-h {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #d83a00;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+}
+.crop-h.nw { left: 0; top: 0; cursor: nwse-resize; }
+.crop-h.n { left: 50%; top: 0; cursor: ns-resize; }
+.crop-h.ne { left: 100%; top: 0; cursor: nesw-resize; }
+.crop-h.e { left: 100%; top: 50%; cursor: ew-resize; }
+.crop-h.se { left: 100%; top: 100%; cursor: nwse-resize; }
+.crop-h.s { left: 50%; top: 100%; cursor: ns-resize; }
+.crop-h.sw { left: 0; top: 100%; cursor: nesw-resize; }
+.crop-h.w { left: 0; top: 50%; cursor: ew-resize; }
+.crop-box.locked .crop-h.n,
+.crop-box.locked .crop-h.e,
+.crop-box.locked .crop-h.s,
+.crop-box.locked .crop-h.w { display: none; }
+
+.note-preview figcaption { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-top: 0.5rem; text-align: center; }

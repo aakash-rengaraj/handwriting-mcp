@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GTM studio — Millwright Tech</title>
+    <meta name="description" content="Handwritten notes and memes, one for every row of your list. Import a CSV, map the columns, download them all. Runs in your browser." />
+    <meta property="og:title" content="GTM studio — Millwright Tech" />
+    <meta property="og:description" content="Handwritten notes and memes, one for every row of your list. Runs in your browser." />
+    <meta property="og:image" content="https://millwrighttech.com/static/img/og.png" />
+    <meta property="og:url" content="https://gtm.millwrighttech.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#D83A00" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+  </head>
+  <body>
+    <nav class="nav" aria-label="Main">
+      <a class="nav-logo" href="https://millwrighttech.com/"><img src="./mark.png" alt="" width="26" height="20" />millwright <span>/ gtm</span></a>
+      <div class="tabs" role="tablist" aria-label="Presets">
+        <button type="button" class="tab" role="tab" data-tab="notes" aria-selected="true">handwritten notes</button>
+        <button type="button" class="tab" role="tab" data-tab="memes" aria-selected="false">memes</button>
+      </div>
+      <a class="nav-back" href="https://millwrighttech.com/">millwrighttech.com ↗</a>
+    </nav>
+
+    <header class="hero pad">
+      <div>
+        <div class="eyebrow">GTM studio</div>
+        <h1>Handwritten notes and memes, one for every row of your list.</h1>
+      </div>
+      <div class="hero-side">
+        <small>Runs entirely in your browser. Your list never leaves this tab.</small>
+      </div>
+    </header>
+
+    <div class="layout pad">
+      <aside class="data-panel" aria-label="Data">
+        <h2>Your list</h2>
+        <div id="dataEmpty">
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept=".csv,.tsv,.txt,.xlsx,.xls,.ods,.numbers" hidden />
+            <strong>Import CSV or spreadsheet</strong>
+            <span>Drop a file here or click to browse. .csv, .xlsx, .xls, .ods</span>
+          </label>
+          <div class="btn-row">
+            <button type="button" class="btn small" id="pasteToggle">paste from sheet</button>
+            <button type="button" class="btn small" id="sampleBtn">load sample</button>
+          </div>
+          <div id="pasteBox" hidden>
+            <textarea id="pasteArea" rows="6" placeholder="Copy cells from Google Sheets or Excel, header row included, and paste here"></textarea>
+            <button type="button" class="btn small primary" id="pasteApply">use pasted data</button>
+          </div>
+        </div>
+
+        <div id="dataLoaded" hidden>
+          <div class="file-card">
+            <div>
+              <strong id="fileName"></strong>
+              <span class="muted" id="rowCount"></span>
+            </div>
+            <button type="button" class="btn small" id="clearData">clear</button>
+          </div>
+        </div>
+
+        <p class="error" id="dataError" role="alert"></p>
+
+        <h3>Columns</h3>
+        <p class="small">Click one to insert it at your cursor. <code>{name|there}</code> uses "there" when the cell is empty. <code>{row}</code> works in file names.</p>
+        <div class="chips" id="chips"></div>
+
+        <div id="rowNav" hidden>
+          <h3>Preview row</h3>
+          <div class="row-nav">
+            <button type="button" class="btn small" id="prevRow" aria-label="Previous row">←</button>
+            <span id="rowLabel"></span>
+            <button type="button" class="btn small" id="nextRow" aria-label="Next row">→</button>
+          </div>
+          <dl class="row-values" id="rowValues"></dl>
+        </div>
+      </aside>
+
+      <main>
+        <section id="tab-notes" class="tool" role="tabpanel"></section>
+        <section id="tab-memes" class="tool" role="tabpanel" hidden></section>
+      </main>
+    </div>
+
+    <footer class="footer">
+      <div class="foot-top pad">
+        <a class="flink" href="https://millwrighttech.com/">millwrighttech.com <span class="arr">↗</span></a>
+        <a class="flink" href="mailto:hello@millwrighttech.com">hello@millwrighttech.com</a>
+      </div>
+      <div class="wordmark" aria-hidden="true"><span class="wm">millwright</span></div>
+      <div class="foot-bottom pad">
+        <p>A millwright installs the machinery and keeps it running. Same job, different century.</p>
+        <p>© 2026 Millwright Tech</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
