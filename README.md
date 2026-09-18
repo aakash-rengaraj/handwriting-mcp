@@ -12,7 +12,7 @@ npm run build    # static site in dist/, host it anywhere (Netlify, S3, GitHub P
 
 ## MCP server
 
-`mcp/` packages the notes renderer as a local MCP server (`millwright-notes-mcp`) for Claude, Cursor and other clients. See [mcp/README.md](mcp/README.md). It imports `src/notes/render.js` and `src/template.js` directly, so rebuild it after changing either.
+`mcp/` packages the notes renderer as a local MCP server (`handwriting-mcp`) for Claude, Cursor and other clients. See [mcp/README.md](mcp/README.md). It imports `src/notes/render.js` and `src/template.js` directly, so rebuild it after changing either.
 
 ## Deploy (gtm.millwrighttech.com)
 
@@ -52,14 +52,42 @@ The Realism slider scales all of it; 0 gives a perfectly clean page. The seed co
 
 Add built-in memes by dropping files in `public/memes/` and listing them in `MEMES` in `src/memes/memes.js`. Users can also upload their own.
 
-## Licensing — check before shipping commercially
+## Licensing
 
 | Asset | Source | Licence |
 | --- | --- | --- |
 | Notes rendering code / paper CSS | texttohandwriting.com, based on [saurabhdaware/text-to-handwriting](https://github.com/saurabhdaware/text-to-handwriting) | MIT (upstream). The site's own modifications carry no stated licence |
-| `handwriting-1…14` fonts | Downloaded from texttohandwriting.com | **Unclear / mixed.** Embedded names include Calligraphr personal fonts, Quantum Enterprises (QE) fonts, a DATA BECKER font and "Children Handwritten" by Darwinoo (all rights reserved). Many are free for personal use only |
+| `handwriting-1…14` fonts | Created by Raj Chourasiya, TextToHandwriting.com | credit required (see Credits). `handwriting-13` is Indie Flower (SIL OFL) |
 | Caveat, Kalam, Anton | Google Fonts via @fontsource | SIL OFL — commercial use OK |
 | Homemade Apple | Google Fonts via @fontsource | Apache 2.0 — commercial use OK |
 | Meme GIFs in `public/memes/` | Supplied locally | Check rights per image |
 | papaparse, jszip, gifuct-js, gifenc | npm | MIT |
 | SheetJS (`xlsx` 0.20.3, from cdn.sheetjs.com) | SheetJS | Apache 2.0 |
+
+## Credits
+
+**Handwriting fonts** (`handwriting-1` … `handwriting-14`) are made by **Raj Chourasiya** of [TextToHandwriting.com](https://texttohandwriting.com). Please keep this credit if you redistribute them.
+
+| Font key | Typeface | Designer / copyright |
+| --- | --- | --- |
+| `handwriting-1` | Deepali Font | Made with Calligraphr |
+| `handwriting-2` | Muskan | Made with Calligraphr |
+| `handwriting-3` | QE Julian Dean | Julian Dean, Quantum Enterprises |
+| `handwriting-4` | QE Sam Roberts 2 | Quantum Enterprises |
+| `handwriting-5` | QE Print Version | Quantum Enterprises |
+| `handwriting-6` | QE Antony Lark | Quantum Enterprises |
+| `handwriting-7` | QE Sam Roberts 2 | Quantum Enterprises |
+| `handwriting-8` | QE Tony Flores | Antonio Flores, Quantum Enterprises |
+| `handwriting-9` | QE Braden Hill | Braden Hill, Quantum Enterprises |
+| `handwriting-10` | QE Caroline Mutiboko | Caroline Mutiboko, Quantum Enterprises |
+| `handwriting-11` | QE Donald Ross | Quantum Enterprises |
+| `handwriting-12` | QE G H Hughes | G H Hughes, Quantum Enterprises |
+| `handwriting-13` | Indie Flower | © 2010 Kimberly Geswein ([kimberlygeswein.com](http://kimberlygeswein.com)), [SIL Open Font License 1.1](https://openfontlicense.org) |
+| `handwriting-14` | Children Handwritten | © 2017 Darwinoo |
+
+**Open-licence fonts:**
+- **Caveat:** © 2014 The Caveat Project Authors, [SIL Open Font License 1.1](https://openfontlicense.org).
+- **Kalam:** © 2014 Indian Type Foundry, [SIL Open Font License 1.1](https://openfontlicense.org).
+- **Homemade Apple:** © 2010 Font Diner, Inc., [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+**Paper and page styling** is adapted from [text-to-handwriting](https://github.com/saurabhdaware/text-to-handwriting) by Saurabh Daware (MIT), via TextToHandwriting.com.
