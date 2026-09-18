@@ -1,0 +1,39 @@
+{
+  "manifest_version": "0.2",
+  "name": "handwriting-mcp",
+  "display_name": "Millwright Notes",
+  "version": "0.0.0",
+  "description": "Turn text, or every row of a CSV, into realistic handwritten notes. Renders locally; nothing leaves your machine.",
+  "long_description": "Renders text as realistic handwritten notes and saves them as images. Set up a style once in a local designer page with a live preview (handwriting, ink, realism, finish, crop), then render single notes or one personalised note per row of a CSV or spreadsheet using {column} tokens.",
+  "author": {
+    "name": "Millwright Tech",
+    "email": "hello@millwrighttech.com",
+    "url": "https://gtm.millwrighttech.com"
+  },
+  "homepage": "https://gtm.millwrighttech.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aakash-rengaraj/handwriting-mcp"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/server.js"],
+      "env": {}
+    }
+  },
+  "tools": [
+    { "name": "open_note_designer", "description": "Open a local page to set up how notes look, with a live preview." },
+    { "name": "render_note", "description": "Render text as a handwritten note image." },
+    { "name": "render_notes_batch", "description": "Render one personalised note per row of a CSV/TSV/XLSX file." },
+    { "name": "list_note_options", "description": "List saved styles, fonts, inks, finishes and surfaces." }
+  ],
+  "keywords": ["handwriting", "notes", "outbound", "gtm"],
+  "compatibility": {
+    "platforms": ["darwin", "win32"],
+    "runtimes": { "node": ">=18.0.0" }
+  },
+  "license": "UNLICENSED"
+}

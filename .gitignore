@@ -2,3 +2,7 @@ node_modules
 dist
 .DS_Store
 mcp/fonts
+
+# MCP bundle staging and output
+mcp/mcpb-build
+*.mcpb

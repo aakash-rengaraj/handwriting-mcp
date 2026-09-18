@@ -66,7 +66,50 @@ export function cropCanvas(src, r) {
   return out;
 }
 
-const fontStr = (size, family) => `${size}px "${family}", cursive`;
+// Caveat and Kalam are bundled and cover far more of Latin-1 than the
+// handwriting faces do, so they stand in per-glyph for anything else missing.
+const fontStr = (size, family) => `${size}px "${family}", "Caveat", "Kalam", cursive`;
+
+// handwriting-1 and handwriting-2 have no apostrophe or quote glyphs at all, so
+// "don't" came out as a tofu box. Falling back to another typeface mid-word
+// gives a visibly foreign, undersized mark, so instead we draw the font's own
+// comma lifted to the ascender — which is what an apostrophe is — and a pair of
+// them for a double quote. The hand stays consistent.
+const QUOTE_COMMAS = new Map([
+  ["'", 1], ["’", 1], ["‘", 1], ["ʼ", 1],
+  ['"', 2], ["“", 2], ["”", 2],
+]);
+// A comma raised so its top meets the ascender reads as an apostrophe. Measured
+// per font and size: these faces carry a lot of empty em box, so any fixed
+// fraction of the size lands a whole line too high.
+const riseCache = new Map();
+function quoteRise(ctx, size, family) {
+  const key = `${family}|${size}`;
+  if (!riseCache.has(key)) {
+    const prev = ctx.font;
+    ctx.font = fontStr(size, family);
+    const top = (ch) => ctx.measureText(ch).actualBoundingBoxAscent;
+    const rise = top("h") - top(",");
+    ctx.font = prev;
+    riseCache.set(key, Number.isFinite(rise) && rise > 0 ? rise : size * 0.37);
+  }
+  return riseCache.get(key);
+}
+
+const glyphMissing = new Map();
+// True when `family` has no glyph for `ch`: the font on its own measures it at
+// exactly the .notdef width. Measured with no fallback list, or every font
+// would look complete.
+function lacksGlyph(ctx, size, family, ch) {
+  const key = `${family}|${ch}`;
+  if (!glyphMissing.has(key)) {
+    const prev = ctx.font;
+    ctx.font = `${size}px "${family}"`;
+    glyphMissing.set(key, ctx.measureText(ch).width === ctx.measureText("￿").width);
+    ctx.font = prev;
+  }
+  return glyphMissing.get(key);
+}
 
 function rgba(hex, a) {
   const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(hex || "");
@@ -168,17 +211,27 @@ function layout(text, o, g, r) {
   const makeWord = (str) => {
     const glyphs = [];
     let x = 0;
-    for (const ch of str) {
+    const put = (ch, rise = 0, advScale = 1) => {
       glyphs.push({
         ch,
         x,
+        rise,
         rot: r.g() * 0.035 * R, // ~2° at full realism
         dy: r.g() * 0.8 * R,
         sx: 1 + r.g() * 0.035 * R,
         sy: 1 + r.g() * 0.05 * R,
       });
-      const adv = w(ch) * (1 + r.g() * 0.03 * R) + r.g() * 0.45 * R;
-      x += Math.max(adv, w(ch) * 0.7);
+      const base = w(ch) * advScale;
+      const adv = base * (1 + r.g() * 0.03 * R) + r.g() * 0.45 * R;
+      x += Math.max(adv, base * 0.7);
+    };
+    for (const ch of str) {
+      const commas = QUOTE_COMMAS.get(ch);
+      if (commas && lacksGlyph(measure, o.size, o.font, ch)) {
+        const rise = quoteRise(measure, o.size, o.font);
+        // A double quote is two of them, tucked closer than two separate commas.
+        for (let i = 0; i < commas; i++) put(",", rise, commas === 1 ? 1 : 0.8);
+      } else put(ch);
     }
     return { glyphs, width: x, alpha: 1 - r() * 0.2 * R, heavy: r() < 0.22 * R };
   };
@@ -322,7 +375,8 @@ function drawInk(lines, o, g, r, S) {
       for (const gl of word.glyphs) {
         const gx = x0 + word.x + gl.x;
         const t = (gx - g.left) / (g.right - g.left);
-        const gy = rule + lift + gl.dy + (gx - g.left) * slope + amp * Math.sin(gx * freq + phase);
+        const gy =
+          rule + lift + gl.dy - (gl.rise || 0) + (gx - g.left) * slope + amp * Math.sin(gx * freq + phase);
         const alpha = word.alpha * linePressure * (1 - 0.07 * R * t);
         x.save();
         x.translate(gx, gy);

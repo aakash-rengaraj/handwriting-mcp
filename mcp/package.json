@@ -1,0 +1,48 @@
+{
+  "name": "handwriting-mcp",
+  "version": "0.2.1",
+  "description": "MCP server that turns text (or every row of a CSV) into realistic handwritten notes. Renders locally; nothing leaves your machine.",
+  "author": "Millwright Tech <hello@millwrighttech.com>",
+  "homepage": "https://gtm.millwrighttech.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aakash-rengaraj/handwriting-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aakash-rengaraj/handwriting-mcp/issues"
+  },
+  "type": "module",
+  "bin": {
+    "handwriting-mcp": "dist/server.js"
+  },
+  "files": [
+    "dist",
+    "fonts",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "prepublishOnly": "npm run build",
+    "pack:mcpb": "npm run build && node build-mcpb.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "handwriting",
+    "outbound",
+    "gtm"
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.9"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "esbuild": "^0.28.2",
+    "papaparse": "^5.7.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+    "zod": "^4.6.5"
+  }
+}

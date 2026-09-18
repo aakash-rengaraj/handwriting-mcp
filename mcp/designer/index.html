@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Note style · millwright</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">millwright <span>/ note style</span></div>
+      <p class="lede">Set up how your handwritten notes look. Save, then go back to Claude and generate them in bulk.</p>
+      <a class="btn small home-link" href="https://millwrighttech.com/" target="_blank" rel="noopener">millwrighttech.com ↗</a>
+    </header>
+
+    <main class="grid">
+      <section class="stage-col">
+        <div class="stage-bar">
+          <div class="crop-controls">
+            <button type="button" class="btn small" id="cropBtn">crop</button>
+            <select id="aspect" aria-label="Crop aspect ratio" hidden></select>
+            <button type="button" class="btn small" id="cropReset" hidden>reset crop</button>
+          </div>
+          <button type="button" class="btn small" id="shuffle" title="Re-roll the random handwriting variation">shuffle variation</button>
+        </div>
+        <p class="hint" id="hint"></p>
+        <div class="stage"><div class="note-preview" id="preview" aria-live="polite"></div></div>
+        <p class="warn" id="warn" hidden></p>
+      </section>
+
+      <aside class="panel">
+        <fieldset>
+          <legend>Note</legend>
+          <label class="field"><span>Template</span><textarea id="template" rows="7" spellcheck="true"></textarea></label>
+          <p class="small">Use <code>{column}</code> for your CSV columns and <code>{column|fallback}</code> for empty cells.</p>
+          <div id="samples" class="samples"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Handwriting</legend>
+          <label class="field"><span>Style</span><select id="font"></select></label>
+          <div class="row">
+            <label class="field"><span>Size (px)</span><input id="size" type="number" min="8" max="80" step="1" /></label>
+            <label class="field"><span>Ink</span>
+              <span class="ink-row"><select id="ink"></select><input id="inkCustom" type="color" aria-label="Custom ink colour" hidden /></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Look</legend>
+          <label class="field"><span>Realism <output id="realOut"></output></span><input id="realism" type="range" min="0" max="100" step="5" /></label>
+          <div class="row">
+            <label class="field"><span>Finish</span>
+              <select id="finish">
+                <option value="photo">Photo on a desk</option>
+                <option value="scan">Scanned</option>
+                <option value="shadow">Soft shadow</option>
+                <option value="clean">Clean paper</option>
+              </select>
+            </label>
+            <label class="field" id="surfaceField"><span>Surface</span>
+              <select id="surface">
+                <option value="wood">Wooden desk</option>
+                <option value="slate">Dark slate</option>
+                <option value="linen">Linen</option>
+              </select>
+            </label>
+          </div>
+          <label class="check"><input type="checkbox" id="lines" /> Ruled lines</label>
+          <label class="check"><input type="checkbox" id="margin" /> Margin</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Export</legend>
+          <div class="row">
+            <label class="field"><span>Quality</span>
+              <select id="quality"><option value="1">1× (450px page)</option><option value="2">2× (900px page)</option><option value="3">3× (1350px page)</option></select>
+            </label>
+            <label class="field"><span>Format</span>
+              <select id="format"><option value="auto">Auto</option><option value="jpg">JPG</option><option value="png">PNG</option></select>
+            </label>
+          </div>
+        </fieldset>
+      </aside>
+    </main>
+
+    <footer class="savebar">
+      <label class="field name"><span>Style name</span><input id="styleName" type="text" maxlength="40" /></label>
+      <button type="button" class="btn primary" id="save">save style</button>
+      <p class="status" id="status" role="status"></p>
+    </footer>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
