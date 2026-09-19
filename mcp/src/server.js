@@ -343,18 +343,7 @@ server.registerTool(
   }
 );
 
+// The designer only opens when open_note_designer is called. Clients start MCP
+// servers with every session, including ones that never touch notes, so opening
+// it at startup popped a browser tab into unrelated work until a style was saved.
 await server.connect(new StdioServerTransport());
-
-// First run: no saved style yet, so open the designer once so the user can set one up.
-// Set MILLWRIGHT_NOTES_NO_AUTO_OPEN=1 to disable.
-if (!process.env.MILLWRIGHT_NOTES_NO_AUTO_OPEN && canOpenBrowser()) {
-  const { styles } = await loadStyles();
-  if (!Object.keys(styles).length) {
-    try {
-      await startDesigner();
-      openBrowser(designerUrl());
-    } catch {
-      // Non-fatal: the tool can still open it later.
-    }
-  }
-}

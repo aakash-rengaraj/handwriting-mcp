@@ -1,6 +1,6 @@
 {
   "name": "handwriting-mcp",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "MCP server that turns text (or every row of a CSV) into realistic handwritten notes. Renders locally; nothing leaves your machine.",
   "author": "Millwright Tech <hello@millwrighttech.com>",
   "homepage": "https://gtm.millwrighttech.com",
